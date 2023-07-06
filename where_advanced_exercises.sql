@@ -17,7 +17,7 @@ ORDER BY emp_no ASC;
 
 SELECT emp_no, first_name
 FROM employees
-WHERE first_name IS ('Irena','Vidya','Maya');
+WHERE first_name IN ('Irena','Vidya','Maya');
 
 /*
 Q: What is the employee number of the top three results?
