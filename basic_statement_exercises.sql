@@ -39,7 +39,7 @@ WHERE name = 'Nevermind';
 
 SELECT name, release_date
 FROM albums
-WHERE release_date BETWEEN 1990 AND 1999;
+WHERE release_date BETWEEN 1990 AND 1999; -- OR WHERE release_date < 2000 AND release_date > 1989;
 
 SELECT name AS low_selling_albums
 FROM albums
