@@ -26,23 +26,23 @@ A: 10200, 10397, 10610
 
 SELECT emp_no, first_name
 FROM employees
-WHERE first_name = 'Irena' OR 'Vidya' OR 'Maya';
+WHERE first_name = 'Irena' OR first_name = 'Vidya' OR first_name = 'Maya';
 
 /*
 Q: What is the employee number of the top three results? Does it match the previous question?
-A: 10397, 10610, 10821
+A: 10200, 10397, 10610
 */
 
 SELECT emp_no, first_name, gender
 FROM employees
-WHERE first_name = 'Irena'
-OR 'Vidya'
-OR 'Maya'
-OR gender = 'M';
+WHERE (first_name = 'Irena'
+OR first_name = 'Vidya'
+OR first_name = 'Maya')
+AND gender = 'M';
 
 /*
 Q: What is the employee number of the top three results.
-A: 10001, 10003, 10004
+A: 10200, 10397, 10821
 */
 
 SELECT DISTINCT last_name
@@ -57,7 +57,7 @@ OR last_name like '%E';
 SELECT DISTINCT last_name
 FROM employees
 WHERE last_name like '%E'
-OR last_name not like 'E%';
+AND last_name not like 'E%';
 
 SELECT DISTINCT last_name
 FROM employees
