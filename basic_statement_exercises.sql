@@ -21,8 +21,13 @@ WHERE artist = 'Pink Floyd';
 
 /*
 Q:What is the year Sgt. Pepper's Lonely Hearts Club Band was released?
-A: 1973
+A: 1967
+*/
+SELECT release_date
+FROM albums
+Where name = 'Sgt. Pepper\'s Lonely Hearts Club Band';
 
+/*
 Q:What is the genre for the album Nevermind?
 A: Grunge, Alternative rock
 
