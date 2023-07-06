@@ -27,7 +27,7 @@ WHERE birth_date LIKE '19%%-12-25'
 AND hire_date like '199%'
 ORDER BY hire_date
 LIMIT 5
-OFFSET 10;
+OFFSET 50;
 
 -- Kendra Stafford, Sanjai Isaac, Aiichiro Neiman, Kwangjo Bage, Tamiya Kambil
 
