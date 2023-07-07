@@ -31,3 +31,6 @@ SUBSTR(birth_date, 6, 2), SUBSTR(birth_date, 3, 2)) AS username, first_name, las
 FROM employees
 LIMIT 10;
 
+SELECT DISTINCT YEAR(birth_date) AS birth_year
+FROM employees
+ORDER BY birth_year;
