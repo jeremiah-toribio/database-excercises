@@ -5,19 +5,19 @@ SELECT * FROM titles
 LIMIT 2;
 
 -- Q2. 7 Titles
-SElECT DISTINCT title
+SElECT COUNT(DISTINCT title)
 FROM titles;
 
 -- Q3.
 SELECT last_name
 FROM employees
-WHERE last_name LIKE '%E'
+WHERE last_name LIKE 'E%E'
 GROUP BY last_name;
 
 -- Q4.
 SELECT first_name, last_name
 FROM employees
-WHERE last_name LIKE '%E'
+WHERE last_name LIKE 'E%E'
 GROUP BY last_name, first_name;
 
 -- Q5. Chleq, Lindqvist, Qiwen
@@ -27,25 +27,33 @@ WHERE last_name LIKE '%q%' AND last_name NOT LIKE '%qu%'
 GROUP BY last_name;
 
  -- Q6. 189, 190, 168
-SELECT count(last_name)
+SELECT last_name, count(last_name)
 FROM employees
 WHERE last_name LIKE '%q%' AND last_name NOT LIKE '%qu%'
 GROUP BY last_name;
 
 -- Q7.
-SELECT COUNT(*) AS name_count
+SELECT first_name, COUNT(*) AS name_count, gender
 FROM employees
 WHERE first_name = 'Irena' OR first_name = 'Vidya' OR first_name = 'Maya'
-GROUP BY first_name;
+GROUP BY first_name, gender;
 
 -- Q8.
 SELECT COUNT(CONCAT(SUBSTR(LOWER(first_name), 1, 1), SUBSTR(lower(last_name), 1, 4), "_", 
 SUBSTR(birth_date, 6, 2), SUBSTR(birth_date, 3, 2)))
 AS username
-FROM employees;
+FROM employees
 ORDER BY username;
 
--- Q9. All are unique
+-- Q9. 13251
+
+SELECT CONCAT(SUBSTR(LOWER(first_name), 1, 1), SUBSTR(LOWER(last_name), 1, 4), "_", 
+SUBSTR(birth_date, 6, 2), SUBSTR(birth_date, 3, 2))
+AS username, COUNT(*) as dupes
+FROM employees
+GROUP BY username
+HAVING COUNT(*) > 1
+ORDER BY dupes desc;
 
 -- BONUS
 
