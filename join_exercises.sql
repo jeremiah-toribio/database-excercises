@@ -114,19 +114,17 @@ GROUP BY e.emp_no;
 -- Q6. had right answer, only getting manager numbers
 SELECT d.dept_no, d.dept_name, count(e.emp_no)
 FROM employees AS e
-	JOIN dept_manager AS dm
-		ON dm.emp_no = e.emp_no
-	JOIN departments AS d
-		ON d.dept_no = dm.dept_no
 	JOIN dept_emp AS de
 		ON de.emp_no = e.emp_no
+	JOIN departments AS d
+		ON d.dept_no = de.dept_no
 	JOIN titles AS t
 		ON t.emp_no = e.emp_no
 WHERE t.to_date = '9999-01-01'
 GROUP BY d.dept_no;
 
 -- Q7.
-SELECT d.dept_name, AVG(s.salary) -- (MAX(AVG(s.salary))) as average_salary
+SELECT d.dept_name, AVG(s.salary)
 FROM employees AS e
 	JOIN dept_manager AS dm
 		ON dm.emp_no = e.emp_no
