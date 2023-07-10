@@ -98,7 +98,7 @@ FROM dept_manager
 LIMIT 10;
 
 -- how to include dept name without error 
-SELECT d.dept_name, CONCAT(e.first_name, ' ', e.last_name) AS full_name, max(s.salary), d.dept_name
+SELECT CONCAT(e.first_name, ' ', e.last_name) AS full_name, max(s.salary)
 FROM employees AS e
 	JOIN dept_manager AS dm
 		ON dm.emp_no = e.emp_no
