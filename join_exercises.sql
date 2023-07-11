@@ -149,5 +149,5 @@ from departments as d
 	join dept_emp as de on de.dept_no = d.dept_no
     join salaries as s on s.emp_no = de.emp_no
 group by d.dept_name
-order by average salary desc;
+order by average_salary desc;
 
