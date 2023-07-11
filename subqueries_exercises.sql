@@ -30,7 +30,7 @@ WHERE hire_date = (
 					);
 
 -- 2. Find all the titles ever held by all current employees with the first name Aamod.
-SELECT title, first_name
+SELECT DISTINCT title, first_name
 FROM titles as t
 JOIN (select first_name, emp_no
 		from employees
@@ -39,16 +39,20 @@ JOIN (select first_name, emp_no
 WHERE t.to_date > NOW() AND a.first_name = 'Aamod';
 
 -- 3. How many people in the employees table are no longer working for the company? Give the answer in a comment in your code.
--- 240124
-SELECT * from titles limit 20;
+-- 240124 for titles table
+-- 91479
 
-SELECT count(*)
+
+SELECT DISTINCT count(*)
 FROM employees e
 JOIN (SELECT to_date, emp_no
 		FROM titles
-        WHERE to_date > NOW())
-        AS t ON t.emp_no = e.emp_no
-WHERE to_date > NOW();
+        WHERE to_date < NOW())
+        AS t ON t.emp_no = e.emp_no;
+        
+SELECT count(to_date)
+FROM dept_emp de
+WHERE to_date in (select to_date from dept_emp where to_date < NOW());
 
 -- 4. Find all the current department managers that are female. List their names in a comment in your code.
 /* 4. Answer
@@ -84,17 +88,31 @@ GROUP BY full_name;
 
 -- 6. How many current salaries are within 1 standard deviation of the current highest salary?
 -- (Hint: you can use a built in function to calculate the standard deviation.) What percentage of all salaries is this?
+-- 78, .0027% / .03% of all historical salaries
 
-SELECT count() 
-FROM salaries s;
+SELECT round(max(salary) - stddev(salary)) as onestd
+FROM salaries
+WHERE to_date > NOW();
+ 
+SELECT
+(WITH salary_count AS (
+SELECT count(*) as one_std
+FROM salaries
+WHERE salary > (SELECT ROUND(max(salary) - stddev(salary)) FROM salaries) AND to_date > NOW()
+)
+SELECT one_std from salary_count) / (SELECT count(salary) FROM salaries WHERE to_date > now()) * 100; -- , (select salary / one_std from salary_count);
 
+WHERE s.to_date > NOW;
+-- 1 stddev
 SELECT ROUND(STDDEV(salary),0)
 from salaries;
 -- 16905 stdv
 
+-- highest historical salary
 SELECT MAX(salary)
 from salaries;
 -- 158220
 
+-- difference between max salary and stddev
 SELECT (158220 - 16905)
 -- 141315 is 1 std away
