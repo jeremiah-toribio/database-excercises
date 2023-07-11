@@ -21,7 +21,7 @@ DESCRIBE titles;
 */
 
 -- 1. Find all the current employees with the same hire date as employee 101010 using a subquery.
-SELECT emp_no, CONCAT (first_name, ' ', last_name) as full_name
+SELECT emp_no, CONCAT (first_name, ' ', last_name) as full_name, hire_date
 FROM employees
 WHERE hire_date = (
 					select hire_date
@@ -39,20 +39,14 @@ JOIN (select first_name, emp_no
 WHERE t.to_date > NOW() AND a.first_name = 'Aamod';
 
 -- 3. How many people in the employees table are no longer working for the company? Give the answer in a comment in your code.
--- 240124 for titles table
--- 91479
+-- 59900
 
-
-SELECT DISTINCT count(*)
-FROM employees e
-JOIN (SELECT to_date, emp_no
-		FROM titles
-        WHERE to_date < NOW())
-        AS t ON t.emp_no = e.emp_no;
-        
-SELECT count(to_date)
-FROM dept_emp de
-WHERE to_date in (select to_date from dept_emp where to_date < NOW());
+select count(*)
+FROM employees e 
+where emp_no
+not in (
+		select emp_no from dept_emp
+        where to_date > NOW());
 
 -- 4. Find all the current department managers that are female. List their names in a comment in your code.
 /* 4. Answer
@@ -78,17 +72,18 @@ JOIN (SELECT first_name, last_name, gender, emp_no
                     ON e.emp_no = dm.emp_no;
                     
 -- 5. Find all the employees who currently have a higher salary than the companies overall, historical average salary.
-SELECT CONCAT(e.first_name, ' ', e.last_name) as full_name
+-- **** Needs correction ****
+SELECT DISTINCT CONCAT(e.first_name, ' ', e.last_name) as full_name
 FROM salaries as s
 JOIN (SELECT first_name, last_name, emp_no
 		FROM employees) as e
-        ON e.emp_no = s.emp_no
+        USING (emp_no)
 WHERE s.salary > (select AVG(salary) from salaries)
 GROUP BY full_name;
 
 -- 6. How many current salaries are within 1 standard deviation of the current highest salary?
 -- (Hint: you can use a built in function to calculate the standard deviation.) What percentage of all salaries is this?
--- 78, .0027% / .03% of all historical salaries
+-- 78,  .035% of all historical salaries
 
 SELECT round(max(salary) - stddev(salary)) as onestd
 FROM salaries
@@ -98,11 +93,10 @@ SELECT
 (WITH salary_count AS (
 SELECT count(*) as one_std
 FROM salaries
-WHERE salary > (SELECT ROUND(max(salary) - stddev(salary)) FROM salaries) AND to_date > NOW()
+WHERE salary > (SELECT max(salary) - stddev(salary) FROM salaries WHERE to_date > now()) AND to_date > NOW()
 )
-SELECT one_std from salary_count) / (SELECT count(salary) FROM salaries WHERE to_date > now()) * 100; -- , (select salary / one_std from salary_count);
+SELECT one_std from salary_count) / (SELECT count(salary) FROM salaries WHERE to_date > now()) * 100;
 
-WHERE s.to_date > NOW;
 -- 1 stddev
 SELECT ROUND(STDDEV(salary),0)
 from salaries;
