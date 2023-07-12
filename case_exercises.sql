@@ -49,9 +49,9 @@ from dept_emp de;
 
 select e.first_name, e.last_name, 
 	case 
-    when e.last_name BETWEEN 'A%' and 'H%' then 'A-H'
-    when e.last_name between 'I%' and 'Q%'then 'I-Q'
-    when e.last_name between 'R%' and 'Z%' then 'R-Z'
+    when left(last_name, 1) <= 'H%' then 'A-H'
+    when left(last_name, 1) <= 'Q%' then 'I-Q'
+    when left(last_name, 1) <= 'Z%' then 'R-Z'
     else 'bravo_group'
     end as alpha_group
 FROM employees e;
@@ -94,10 +94,10 @@ order by avg_sal desc;
 select
 	case
     when d.dept_no IN ('d008', 'd005') then 'R&D'
-	when d.dept_no in ('d001', 'd007') then 'S&M'
-	when d.dept_no in ('d004', 'd006') then 'Q&P'
-	when d.dept_no IN ('d002', 'd003') then 'F&H'
-	when d.dept_no in ('d009') then 'CS'
+	when d.dept_no in ('d001', 'd007') then 'Sales & Marketing'
+	when d.dept_no in ('d004', 'd006') then 'Prod & QM'
+	when d.dept_no IN ('d002', 'd003') then 'Finance & HR'
+	when d.dept_no in ('d009') then 'Customer Service'
     else null
     end as dept_group,
     avg(salary) as avg_sal
@@ -110,3 +110,10 @@ join departments d
 	on d.dept_no = de.dept_no
 group by dept_group
 order by avg_sal desc;
+
+-- BONUS:
+-- Remove duplicate employees from exercise 1.
+
+select distinct de.dept_no, de.from_date, de.to_date, 
+		if(to_date > now(), true, false) is_current_employee
+from dept_emp de;

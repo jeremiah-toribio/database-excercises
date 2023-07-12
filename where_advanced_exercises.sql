@@ -13,7 +13,7 @@ AND emp_no > 10400 AND emp_no < 10500
 ORDER BY emp_no ASC;
 
 
-------------------------------------
+####################################################
 
 SELECT emp_no, first_name
 FROM employees
