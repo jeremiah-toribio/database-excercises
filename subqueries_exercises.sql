@@ -93,7 +93,7 @@ SELECT
 (WITH salary_count AS (
 SELECT count(*) as one_std
 FROM salaries
-WHERE salary > (SELECT max(salary) - stddev(salary) FROM salaries WHERE to_date > now()) AND to_date > NOW()
+WHERE salary > (SELECT round(max(salary) - stddev(salary)) FROM salaries WHERE to_date > now()) AND to_date > NOW()
 )
 SELECT one_std from salary_count) / (SELECT count(salary) FROM salaries WHERE to_date > now()) * 100;
 
