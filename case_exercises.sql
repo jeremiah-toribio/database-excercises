@@ -57,7 +57,9 @@ select e.first_name, e.last_name,
 FROM employees e;
 
 -- 3. How many employees (current or previous) were born in each decade?
--- A: 50s 182886, 60s 117138
+/* 
+3A. 50s 182886, 60s 117138
+*/
 select max(birth_date) from employees;
 
 select
@@ -67,7 +69,13 @@ from employees;
 
 -- 4. What is the current average salary for each of the following department groups:
 --  R&D, Sales & Marketing, Prod & QM, Finance & HR, Customer Service?
-
+/* 4A.
+'S&M','86368.8643'
+'F&H','71107.7403'
+'R&D','67709.2620'
+'Q&P','67328.4982'
+'CS','67285.2302'
+*/
 select dept_name, dept_no from departments order by dept_no;
 
 select
@@ -89,7 +97,7 @@ select
 	when d.dept_no in ('d001', 'd007') then 'S&M'
 	when d.dept_no in ('d004', 'd006') then 'Q&P'
 	when d.dept_no IN ('d002', 'd003') then 'F&H'
-	when d.dept_no in ('d005') then 'DEVELOPMENT'
+	when d.dept_no in ('d009') then 'CS'
     else null
     end as dept_group,
     avg(salary) as avg_sal
