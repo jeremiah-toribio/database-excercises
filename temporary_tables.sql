@@ -62,17 +62,19 @@ Go back to the employees database. Find out how the current average pay in each 
  The worst?
 */
 use employees;
+use robinson_2289;
 
 CREATE TEMPORARY TABLE
-dept_avg AS (SELECT AVG(salary) AS avg_dept_salary
-FROM departments as d
-JOIN dept_emp de
-ON de.dept_no = de.dept_no
-JOIN salaries s
-ON s.emp_no = de.emp_no
-WHERE de.to_date > NOW()
+dept_avg (SELECT dept_name, AVG(salary) AS avg_dept_salary
+FROM employees.departments d
+JOIN employees.dept_emp de
+USING(dept_no)
+JOIN employees.salaries s
+USING(emp_no)
+WHERE
+de.to_date > NOW()
 AND s.to_date > NOW()
-group by dept_name);
+GROUP BY dept_name);
 
 create temporary table metrics 
 (SELECT AVG(salary) as overall,
